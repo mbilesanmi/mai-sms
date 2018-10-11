@@ -13,4 +13,7 @@ module.exports = app => {
 
   app.route('/sms/:senderId/:receiverId')
     .post(messagesController.create);
+
+  app.route('/sms/:userId')
+    .get(messagesController.getAll)
 }
