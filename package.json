@@ -9,12 +9,14 @@
     "migrate": "NODE_ENV=development sequelize db:migrate",
     "start:dev": "nodemon index.js babel-node",
     "start": "node app.js",
-    "test": "NODE_ENV=test mocha server/tests/*.spec.js --exit --compilers js:babel-core/register"
+    "test": "NODE_ENV=test mocha server/tests/*.spec.js --exit --compilers js:babel-core/register",
+    "test-dev": "mocha server/tests/*.spec.js --exit --compilers js:babel-core/register"
   },
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.26.3",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.3",
     "http": "^0.0.0",
