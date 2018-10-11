@@ -9,7 +9,7 @@ const expect = chai.expect;
 let testContact;
 
 describe('CONTACT API', () => {
-  before((done) => {
+  before(done => {
     db.Contact.create({
       name: 'Mai Mai',
       phoneNum: '090876754365'
@@ -20,14 +20,14 @@ describe('CONTACT API', () => {
     });
   });
 
-  after((done) => {
+  after(done => {
     db.Contact.destroy({ where: {} })
     .then(done());
   });
 
   describe('CREATE Contact POST /contacts', () => {
 
-    it('it should create a new contact when data is valid', (done) => {
+    it('it should create a new contact when data is valid', done => {
       superRequest.post('/contacts')
         .set({ 'content-type': 'application/json' })
         .send({ 
@@ -44,7 +44,7 @@ describe('CONTACT API', () => {
         });
     });
 
-    it('it should not create a contact with the same phone number', (done) => {
+    it('it should not create a contact with the same phone number', done => {
       superRequest.post('/contacts')
         .set({ 'content-type': 'application/json' })
         .send({ 
@@ -55,7 +55,6 @@ describe('CONTACT API', () => {
           expect(res.status).to.equal(400);
           expect(res.body.message).to
             .equal('Phone number already exists');
-          // expect(res.body.data.type).to.equal('unique violation');
           done();
         });
     });
@@ -86,6 +85,40 @@ describe('CONTACT API', () => {
           expect(res.status).to.equal(400);
           expect(res.body.message).to
             .equal('Wrong format for Phone number.');
+          done();
+        });
+    });
+  });
+
+  describe('GET Contact GET /contact/contactId', () => {
+
+    it('it should get a contact when it exists', done => {
+      superRequest.get(`/contacts/${testContact.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.contact.name).to.equal('Mai Mai');
+          expect(res.body.contact.phoneNum).to.equal('090876754365');
+          done();
+        });
+    });
+
+    it('it should not get a contact if it does not exist', done => {
+      superRequest.get('/contacts/99999999999')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('Contact not found');
+          done();
+        });
+    });
+
+    it('it should not get a contact if contactId is invalid', done => {
+      superRequest.get('/contacts/hghjg')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.message).to.equal('Invalid contact id');
           done();
         });
     });
