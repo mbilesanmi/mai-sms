@@ -32,4 +32,21 @@ module.exports = {
     })
     .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
   },
+
+  getOne(req, res) {
+    const { contactId } = req.params;
+
+    if (isNaN(contactId)) {
+      return res.status(400).send({ message: 'Invalid contact id' });
+    }
+    
+    Contact.findById(parseInt(contactId))
+    .then(contact => {
+      if (!contact) {
+        return res.status(404).send({ 'message': 'Contact not found' });
+      }
+      return res.status(200).send({ contact });
+    })
+    .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
+  }
 }
