@@ -7,7 +7,7 @@
   "scripts": {
     "migrate:test": "NODE_ENV=test sequelize db:migrate",
     "migrate": "NODE_ENV=development sequelize db:migrate",
-    "start:dev": "nodemon app.js babel-node",
+    "start:dev": "nodemon index.js babel-node",
     "start": "node app.js",
     "test": "NODE_ENV=test mocha server/tests/*.spec.js --exit --compilers js:babel-core/register"
   },
@@ -24,6 +24,7 @@
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.39.0",
+    "sequelize-cli": "^4.1.1",
     "supertest": "^3.3.0",
     "winston": "^3.1.0"
   },
@@ -31,7 +32,6 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
-    "sequelize-cli": "^4.1.1"
+    "babel-preset-es2015": "^6.24.1"
   }
 }
