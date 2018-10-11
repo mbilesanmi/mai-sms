@@ -11,8 +11,8 @@ services:
   - postgresql
 
 before_script:
-  - createdb mai_sms_test
-  - npm run migrate:test
+  # - createdb mai_sms_test
+  # - npm run migrate:test
   - npm install
 
 script:
