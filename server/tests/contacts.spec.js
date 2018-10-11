@@ -133,4 +133,35 @@ describe('CONTACT API', () => {
         });
     });
   });
+
+  describe('UPDATE Contacts PUT /contacts', () => {
+    it('it should update a single contact', done => {
+      superRequest.put(`/contacts/${testContact.id}`)
+        .set({ 'content-type': 'application/json' })
+        .send({ 
+          name: 'testing',
+          phoneNum: '01234567980'
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.contact.name).to.equal('testing');
+          expect(res.body.contact.phoneNum).to.equal('01234567980');
+          done();
+        });
+    });
+
+    it('it should fail for a contact that doesnt exist', done => {
+      superRequest.put('/contacts/1212121212121')
+        .set({ 'content-type': 'application/json' })
+        .send({ 
+          name: 'testing',
+          phoneNum: '01234567980'
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('Contact not found');
+          done();
+        });
+    });
+  });
 });

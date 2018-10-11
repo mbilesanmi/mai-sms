@@ -78,7 +78,7 @@ module.exports = {
     Contact.findById(parseInt(req.params.contactId))
     .then(contact => {
       if (!contact) {
-        return res.status(404).send({ message: 'Contact Not Found' });
+        return res.status(404).send({ message: 'Contact not found' });
       }
 
       return contact.update({
