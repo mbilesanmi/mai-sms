@@ -42,4 +42,30 @@ module.exports = {
       return res.status(404).send({ message: 'Sender not found' });
     });
   },
+
+  getAll(req, res) {
+    const { userId } = req.params;
+
+    if (isNaN(userId)) return res.status(400).send({ message: 'Invalid user ID' });
+
+    return Contact.findById(userId)
+    .then(user => {
+      if (!user) return res.status(404).send({ message: 'Contact not found' });
+
+      return Message.findAll({
+        where: {
+          $or: [{
+            senderId: userId
+          }, {
+            receiverId: userId
+          }]
+        },
+      })
+      .then(messages => {
+        if (messages) return res.status(200).send({ messages });
+      })
+      .catch(e => res.status(400).send({ message: e.errors[0].message || e }));
+    })
+    .catch(e => res.status(400).send({ message: e.errors[0].message || e }));
+  }
 };
