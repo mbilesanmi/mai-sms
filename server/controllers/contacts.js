@@ -48,5 +48,22 @@ module.exports = {
       return res.status(200).send({ contact });
     })
     .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
-  }
+  },
+
+  getAll(req, res) {
+    Contact.findAll({
+      order: [
+        ['createdAt', 'DESC']
+      ],
+    })
+    .then(contacts => {
+      if (contacts.length < 1) {
+        return res.status(404).send({ message: 'No contacts found' }); 
+      }
+      return res.status(200).send({ data: contacts });
+    })
+    .catch(e => {
+      return res.status(400).json({ 'message': e.errors[0].message || e });
+    });
+  },
 }
