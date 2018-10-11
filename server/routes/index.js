@@ -1,4 +1,5 @@
 const contactsController = require('../controllers/contacts');
+const messagesController = require('../controllers/messages');
 
 module.exports = app => {
   app.route('/contacts')
