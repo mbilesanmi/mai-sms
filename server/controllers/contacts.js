@@ -60,7 +60,7 @@ module.exports = {
       if (contacts.length < 1) {
         return res.status(404).send({ message: 'No contacts found' }); 
       }
-      return res.status(200).send({ data: contacts });
+      return res.status(200).send({ contacts });
     })
     .catch(e => {
       return res.status(400).json({ 'message': e.errors[0].message || e });

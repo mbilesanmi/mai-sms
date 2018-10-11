@@ -26,7 +26,6 @@ describe('CONTACT API', () => {
   });
 
   describe('CREATE Contact POST /contacts', () => {
-
     it('it should create a new contact when data is valid', done => {
       superRequest.post('/contacts')
         .set({ 'content-type': 'application/json' })
@@ -90,8 +89,7 @@ describe('CONTACT API', () => {
     });
   });
 
-  describe('GET Contact GET /contact/contactId', () => {
-
+  describe('GET Contact GET /contacts/contactId', () => {
     it('it should get a contact when it exists', done => {
       superRequest.get(`/contacts/${testContact.id}`)
         .set({ 'content-type': 'application/json' })
@@ -119,6 +117,18 @@ describe('CONTACT API', () => {
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body.message).to.equal('Invalid contact id');
+          done();
+        });
+    });
+  });
+
+  describe('GET all Contacts GET /contacts', () => {
+    it('it should get all contacts successfully', (done) => {
+      superRequest.get('/contacts')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.contacts.length).to.be.greaterThan(0);
           done();
         });
     });
