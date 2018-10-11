@@ -88,6 +88,20 @@ module.exports = {
       .then(() => res.status(200).send({ contact }))
       .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
     })
-    .catch(e => res.status(400).send({ 'message': e }));
+    .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
   },
+
+  delete(req, res) {
+    const { contactId } = req.params;
+    if (isNaN(contactId)) return res.status(400).send({ message: 'Invalid contact id.' });
+
+    Contact.findById(contactId)
+    .then(contact => {
+      if (!contact) return res.status(404).send({ message: 'Contact Not Found' });
+      return contact.destroy()
+      .then(() => res.status(200).send({ message: 'Contact deleted' }))
+      .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
+    })
+    .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
+  }
 }
