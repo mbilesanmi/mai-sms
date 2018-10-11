@@ -19,6 +19,7 @@ module.exports = {
     if (isNaN(receiverId)) {
       return res.status(400).send({ message: 'Invalid receiver ID' });
     }
+    if (senderId === receiverId) return res.status(400).send({ message: 'Sender and receiver cannot be the same' })
 
     Contact.findById(senderId)
     .then(sender => {
