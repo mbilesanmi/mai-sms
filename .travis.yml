@@ -12,11 +12,11 @@ services:
 
 before_script:
   # - createdb mai_sms_test
-  - npm run migrate:test
-  - npm install
+  - yarn migrate:test
+  - yarn install
 
 script:
-  - npm run test
+  - yarn test
 
 addons:
   postgresql: "9.3"
