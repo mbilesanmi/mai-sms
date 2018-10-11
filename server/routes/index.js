@@ -10,4 +10,7 @@ module.exports = app => {
     .get(contactsController.getOne)
     .put(contactsController.update)
     .delete(contactsController.delete)
+
+  app.route('/sms/:senderId/:receiverId')
+    .post(messagesController.create);
 }
