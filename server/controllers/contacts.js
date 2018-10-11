@@ -97,7 +97,7 @@ module.exports = {
 
     Contact.findById(contactId)
     .then(contact => {
-      if (!contact) return res.status(404).send({ message: 'Contact Not Found' });
+      if (!contact) return res.status(404).send({ message: 'Contact not found' });
       return contact.destroy()
       .then(() => res.status(200).send({ message: 'Contact deleted' }))
       .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));

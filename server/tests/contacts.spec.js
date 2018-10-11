@@ -164,4 +164,40 @@ describe('CONTACT API', () => {
         });
     });
   });
+
+  describe('DELETE Contacts DELETE /contacts', () => {
+
+    it('it should delete a contact successfully', done => {
+      superRequest.delete(`/contacts/${testContact.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.message).to.equal('Contact deleted');
+          done();
+        });
+    });
+
+    it('it should fail for Invalid contact', done => {
+      superRequest.delete('/contacts/ssdhnaf')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.message).to
+            .equal('Invalid contact id.');
+          done();
+        });
+    });
+
+    it('it should fail contact is not found', done => {
+      superRequest.delete('/contacts/1291021902')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to
+            .equal('Contact not found');
+          done();
+        });
+    });
+  });
+
 });
