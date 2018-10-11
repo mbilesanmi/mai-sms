@@ -66,7 +66,6 @@ describe('SMS API', () => {
         .set({ 'content-type': 'application/json' })
         .send({ content: 'blah blah' })
         .end((err, res) => {
-          // console.log(res.body, 'adsasd');
           expect(res.status).to.equal(201);
           expect(res.body.message).to.equal('Message sent');
           expect(res.body.sms.content).to.be.equal('blah blah');
