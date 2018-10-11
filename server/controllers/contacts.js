@@ -62,8 +62,32 @@ module.exports = {
       }
       return res.status(200).send({ contacts });
     })
-    .catch(e => {
-      return res.status(400).json({ 'message': e.errors[0].message || e });
-    });
+    .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
+  },
+
+  update(req, res) {
+    const { name, phoneNum } = req.body;
+
+    if(!name && !phoneNum) {
+      return res.status(200).send({ message: 'No change.' });
+    }
+    if (isNaN(phoneNum)) {
+      return res.status(400).send({ message: 'Wrong format for Phone number.' });
+    }
+
+    Contact.findById(parseInt(req.params.contactId))
+    .then(contact => {
+      if (!contact) {
+        return res.status(404).send({ message: 'Contact Not Found' });
+      }
+
+      return contact.update({
+        name: req.body.name || contact.name,
+        phoneNum: req.body.phoneNum || contact.phoneNum
+      })
+      .then(() => res.status(200).send({ contact }))
+      .catch(e => res.status(400).send({ 'message': e.errors[0].message || e }));
+    })
+    .catch(e => res.status(400).send({ 'message': e }));
   },
 }

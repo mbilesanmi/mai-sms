@@ -7,4 +7,5 @@ module.exports = app => {
 
   app.route('/contacts/:contactId')
     .get(contactsController.getOne)
+    .put(contactsController.update)
 }
