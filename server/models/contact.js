@@ -22,8 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Contact.associate = function(models) {
+  Contact.associate = (models) => {
     // associations can be defined here
+    Contact.hasMany(models.Message, {
+      foreignKey: 'senderId'
+    });
+    Contact.hasMany(models.Message, {
+      foreignKey: 'receiverId'
+    });
   };
   return Contact;
 };
