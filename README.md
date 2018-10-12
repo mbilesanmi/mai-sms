@@ -22,7 +22,7 @@ No authorization required
 ### Endpoints
 ---
 
-Access the hosted application on Heroku using this [link]((https://mai-sms.herokuapp.com/). 
+Access the hosted application on Heroku using this [link](https://mai-sms.herokuapp.com/). 
 
 Below are the collection of routes.
 
