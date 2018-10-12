@@ -18,14 +18,14 @@ describe('SMS API', () => {
       phoneNum: '098384748282'
     })
     .then((senderContact) => {
-      sender = senderContact.dataValues;
+      sender = senderContact;
 
       db.Contact.create({
         name: 'new tester',
         phoneNum: '09902827265'
       })
       .then((receiverContact) => {
-        receiver = receiverContact.dataValues;
+        receiver = receiverContact;
 
         db.Message.create({
           content: 'test message',
@@ -33,7 +33,7 @@ describe('SMS API', () => {
           receiverId: receiver.id
         })
         .then((firstSms) => {
-          message1 = firstSms.dataValues;
+          message1 = firstSms;
 
           db.Message.create({
             content: 'other test',
@@ -41,7 +41,7 @@ describe('SMS API', () => {
             receiverId: receiver.id
           })
           .then((secondSms) => {
-            message2 = secondSms.dataValues;
+            message2 = secondSms;
             done();
           });
         });
@@ -109,26 +109,79 @@ describe('SMS API', () => {
         });
     });
   });
-});
 
-describe('GET All Sms GET /api/sms_messages', () => {
-  it('it should fail to get all sms for a contact that doesnt exist', done => {
-    superRequest.get('/sms/89917009')
-      .set({ 'content-type': 'application/json' })
-      .end((err, res) => {
-        expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal('Contact not found');
-        done();
-      });
+  describe('GET All Sms GET /api/sms_messages', () => {
+    it('it should fail to get all sms for a contact that doesnt exist', done => {
+      superRequest.get(`/sms/${sender.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.messages.length).to.be.greaterThan(0);
+          done();
+        });
+    });
+
+    it('it should fail to get all sms for a contact that doesnt exist', done => {
+      superRequest.get('/sms/89917009')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('Contact not found');
+          done();
+        });
+    });
+  
+    it('it should fail to get all sms for invalid contact successfully', done => {
+      superRequest.get('/sms/ghcfhvghnf')
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.message).to.equal('Invalid user');
+          done();
+        });
+    });
   });
 
-  it('it should fail to get all sms for invalid contact successfully', done => {
-    superRequest.get('/sms/ghcfhvghnf')
-      .set({ 'content-type': 'application/json' })
-      .end((err, res) => {
-        expect(res.status).to.equal(400);
-        expect(res.body.message).to.equal('Invalid user');
-        done();
-      });
+  describe('DELETE Sms DELETE /api/sms', () => {
+    it('it should delete sms successfully if contactId is sender', (done) => {
+      superRequest.delete(`/sms/${sender.id}/${message1.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          console.log(res.body)
+          expect(res.status).to.equal(200);
+          expect(res.body.message).to.equal('Message successfully deleted');
+          done();
+        });
+    });
+
+    it('it should not delete sms if contactId is not the sender', (done) => {
+      superRequest.delete(`/sms/${receiver.id}/${message2.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body.message).to.equal('You can only delete sent messages');
+          done();
+        });
+    });
+
+    it('it should fail if messageId does not exist', (done) => {
+      superRequest.delete(`/sms/${sender.id}/999999`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('Message not found');
+          done();
+        });
+    });
+
+    it('it should fail if contactId does not exist', (done) => {
+      superRequest.delete(`/sms/999999/${message2.id}`)
+        .set({ 'content-type': 'application/json' })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('Contact not found');
+          done();
+        });
+    });
   });
 });
