@@ -67,5 +67,31 @@ module.exports = {
       .catch(e => res.status(400).send({ message: e.errors[0].message || e }));
     })
     .catch(e => res.status(400).send({ message: e.errors[0].message || e }));
+  },
+
+  delete(req, res) {
+    const { messageId, contactId } = req.params;
+
+    if (isNaN(contactId)) return res.status(400).send({ message: 'Invalid user' });
+    if (isNaN(messageId)) return res.status(400).send({ message: 'Invalid message ID' });
+
+    return Contact.findById(contactId)
+    .then(contact => {
+      if (!contact) return res.status(404).send({ message: 'Contact not found' })
+
+      Message.findById(messageId)
+      .then(msg => {
+        if (!msg) return res.status(400).send({ message: 'Message not found' })
+
+        console.log(msg.receiverId, 'asadsad');
+        if (msg.senderId !== contact.id)
+          return res.status(400).send({ message: 'You can only delete sent messages' })
+
+        return msg.destroy()
+        .then(() => res.status(200).send({
+          message: 'Message successfully deleted'
+        }));
+      })
+    })
   }
 }
