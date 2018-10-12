@@ -29,13 +29,21 @@ Below are the collection of routes.
 
 #### Contact
 
-EndPoint          |   Functionality    |    Request body/params
-------------------|--------------------|--------------------------------------------------------------
+EndPoint                    |   Functionality       |    Request body/params
+----------------------------|-----------------------|-------------------------------------------------
+POST /contacts              | Create a contact      | body [name, phoneNumber]
+GET /contacts/:contactId    | Gets a single contact | params [contactId]    
+PUT /contacts/:contactId    | Updates a contact     | params [contactId], body [*name, *phoneNumber]
+DELETE /contacts/:contactId | Deletes a contact     | params [contactId]
+GET /contacts               | Gets all contacts     |  
 
 #### Sms
 
-EndPoint          |   Functionality    |    Request body/params
-------------------|--------------------|--------------------------------------------------------------
+EndPoint                            |   Functionality    |    Request body/params
+------------------------------------|--------------------|--------------------------------------------
+POST /sms/:senderId/:receiverId     | Create sms         | body [content]
+GET /sms/:userId                    | Gets all sms       |
+DELETE /sms/:contactId/:messageId   | Deletes sms        | 
 
 
 ### Technologies Used
