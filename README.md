@@ -2,7 +2,7 @@
 SMS management API
 
 * Access the hosted application on Heroku using this [link](https://mai-sms.herokuapp.com/).
-* SMS API Route documentation can be found [here](maisms.docs.apiary.io)
+* SMS API Route documentation can be found [here](https://maisms.docs.apiary.io)
 
 ### Features
 ---
