@@ -16,4 +16,7 @@ module.exports = app => {
 
   app.route('/sms/:userId')
     .get(messagesController.getAll)
+
+  app.route('/sms/:contactId/:messageId')
+    .delete(messagesController.delete)
 }
