@@ -110,3 +110,25 @@ describe('SMS API', () => {
     });
   });
 });
+
+describe('GET All Sms GET /api/sms_messages', () => {
+  it('it should fail to get all sms for a contact that doesnt exist', done => {
+    superRequest.get('/sms/89917009')
+      .set({ 'content-type': 'application/json' })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.equal('Contact not found');
+        done();
+      });
+  });
+
+  it('it should fail to get all sms for invalid contact successfully', done => {
+    superRequest.get('/sms/ghcfhvghnf')
+      .set({ 'content-type': 'application/json' })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal('Invalid user');
+        done();
+      });
+  });
+});

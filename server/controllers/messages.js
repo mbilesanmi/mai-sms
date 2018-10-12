@@ -46,7 +46,7 @@ module.exports = {
   getAll(req, res) {
     const { userId } = req.params;
 
-    if (isNaN(userId)) return res.status(400).send({ message: 'Invalid user ID' });
+    if (isNaN(userId)) return res.status(400).send({ message: 'Invalid user' });
 
     return Contact.findById(userId)
     .then(user => {
@@ -68,4 +68,4 @@ module.exports = {
     })
     .catch(e => res.status(400).send({ message: e.errors[0].message || e }));
   }
-};
+}
