@@ -81,11 +81,11 @@ module.exports = {
 
       Message.findById(messageId)
       .then(msg => {
-        if (!msg) return res.status(400).send({ message: 'Message not found' })
+        if (!msg) return res.status(404).send({ message: 'Message not found' })
 
         console.log(msg.receiverId, 'asadsad');
         if (msg.senderId !== contact.id)
-          return res.status(400).send({ message: 'You can only delete sent messages' })
+          return res.status(401).send({ message: 'You can only delete sent messages' })
 
         return msg.destroy()
         .then(() => res.status(200).send({
