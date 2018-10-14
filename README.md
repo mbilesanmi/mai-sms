@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mbilesanmi/mai-sms.svg?branch=master)](https://travis-ci.org/mbilesanmi/mai-sms)
+
 # SMS API
 SMS management API
 
