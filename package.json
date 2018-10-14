@@ -8,7 +8,7 @@
     "migrate:test": "NODE_ENV=test sequelize db:migrate",
     "migrate": "NODE_ENV=development sequelize db:migrate",
     "start:dev": "nodemon index.js babel-node",
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "NODE_ENV=test mocha server/tests/*.spec.js --exit --compilers js:babel-core/register",
     "test-dev": "mocha server/tests/*.spec.js --exit --compilers js:babel-core/register"
   },
